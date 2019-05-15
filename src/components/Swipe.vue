@@ -19,6 +19,8 @@ img  .swiper-slide {
 </style>
 
 <script>
+import Swiper from 'swiper'
+import 'swiper/dist/css/swiper.css'
 export default {
     name:'swipe',
     props:{
@@ -30,7 +32,16 @@ export default {
        
     },
     created(){
-        console.log(this.lists)
-    }
+        // console.log(this.lists)
+    },
+    mounted(){
+      new Swiper('.swiper-container',{
+        loop:true,
+        autoplay:true,
+        pagination:'.swiper-pagination',
+      })
+    },
+
+
 }
 </script>
