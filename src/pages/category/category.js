@@ -55,5 +55,14 @@ new Vue ({
      components:{
          Foot
 
+     },
+     filters:{
+         number(price){
+             if(price%1 === 0) {
+                return price+'.00'// num是整数
+              }else {
+                  return price
+              }
+         }
      }
  })
