@@ -1,7 +1,7 @@
 <template>
 <div class="bottom-nav">
     <ul>
-      <li :class="{active:index==curIndex}" v-for="(list,index)in navConfig"><a :href="list.href"><i :class="list.icon"></i><div>{{list.name}}</div></a></li>
+      <li :class="{active:index==curIndex}" v-for="(list,index)in navConfig" @click="changeNav(list,index)"><a :href="list.href"><i :class="list.icon"></i><div>{{list.name}}</div></a></li>
      
     </ul>
     </div>
@@ -32,6 +32,11 @@ export default {
     return{
       navConfig,
       curIndex:0
+    }
+  },
+  methods:{
+    changeNav(list,index){
+      this.curIndex=index
     }
   }
 }
