@@ -61,6 +61,10 @@ new Vue ({
                 this.dealLists=res.data.data.lists
             })
 
+        },
+        chooseSku(type){
+            this.skuType=type
+            this.showSku=true
         }
     },
     components{
