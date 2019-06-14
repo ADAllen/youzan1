@@ -27,7 +27,7 @@
   <div class="container wap-goods internal-purchase" style="min-height: 617px;">
     <div class="content no-sidebar">
       <div class="content-body">
-        <swipe :list="bannerLists"  v-if="bannerLists"></swipe>
+        <swipe :lists="bannerLists"  v-if="bannerLists"></swipe>
         <!-- <script id="resize-img-script-used"></script> -->
         <div class="goods-header">
           <h2 class="title">{{details.title}}</h2>
@@ -152,9 +152,9 @@
             <a class="js-show-more-btn icon show-more-btn hide"></a>
           </div>
         </div> -->
-        <div id="right-icon" class="js-right-icon ">
+        <div id="right-icon" class="js-right-icon " v-show='isAddCart'>
           <div class="js-right-icon-container right-icon-container clearfix">
-            <a id="global-cart" href="https://h5.youzan.com/v2/trade/cart?kdt_id=16546132" class="icon new s0" style="">
+            <a id="global-cart" :href="'cart.html?id='+id" class="icon new s0" style="">
               <p class="icon-img"></p>
               <p class="icon-txt">购物车</p>
             </a>
@@ -366,8 +366,10 @@
     <div class="history-wrap center">
       <ul class="history-list search-recom-list js-history-list clearfix"></ul><a class="tag tag-clear js-tag-clear c-gray-darker hide" href="javascript:;">清除历史搜索</a></div>
   </div>
-  <div id="yFzBKP9GDL" style="height: 100%; position: fixed; top: 0px; left: 0px; right: 0px; background-color: rgba(0, 0, 0, 0.7); z-index: 1000; transition: none 0.2s ease; opacity: 1; "v-show="showSku"></div>
-  <div id="QfEqtDbeK9" class="sku-layout sku-box-shadow popup" style="overflow: hidden; position: absolute; z-index: 1000; background: white; bottom: 0px; left: 0px; right: 0px; visibility: visible; transform: translate3d(0px, 0px, 0px); transition: all 300ms ease; opacity: 1; "v-show="showSku">
+  <div id="yFzBKP9GDL" style="height: 100%; position: fixed; top: 0px; left: 0px; right: 0px; background-color: rgba(0, 0, 0, 0.7); z-index: 1000; transition: none 0.2s ease; opacity: 1; "
+  v-show="showSku"@click="showSku=false"></div>
+  <transition name="fade">
+  <div id="QfEqtDbeK9" class="sku-layout sku-box-shadow popup" style="overflow: hidden; position: fixed; z-index: 1000; background: white; bottom: 0px; left: 0px; right: 0px; visibility: visible; "v-show="showSku">
     <div class="sku-layout-title name-card sku-name-card">
       <div class="thumb"><img class="js-goods-thumb goods-thumb" src="https://img.yzcdn.cn/upload_files/2017/07/12/FkSvYz8FLLD9-t0smXO43hF6ov7S.jpg?imageView2/2/w/100/h/100/q/75/format/webp?imageView2/2/w/100/h/100/q/75/format/webp" alt=""></div>
       <div class="detail goods-base-info clearfix">
@@ -379,7 +381,7 @@
           <div class="original-price vertical-middle font-size-14 line-through">108</div>
         </div>
       </div>
-      <div class="js-cancel sku-cancel">
+      <div class="js-cancel sku-cancel"  @click="showSku=false">
         <div class="cancel-img"></div>
       </div>
     </div>
@@ -410,11 +412,11 @@
           <dd class="sku-quantity-contaienr">
             <dl class="clearfix">
               <div class="quantity">
-                <button class="minus disabled" type="button" disabled="true"></button>
-                <input type="text" class="txt" pattern="[0-9]*" value="1">
+                <button class="minus" type="button" :class="{disabled:skuNum===1}"></button>
+                <input type="text" class="txt" pattern="[0-9]*" :value="skuNum">
                 <button class="plus" type="button"></button>
-                <div class="response-area response-area-minus"></div>
-                <div class="response-area response-area-plus"></div>
+                <div class="response-area response-area-minus"@click="changeSkuNum(-1)"></div>
+                <div class="response-area response-area-plus"@click="changeSkuNum(1)"></div>
               </div>
             </dl>
           </dd>
@@ -430,7 +432,7 @@
       <div class="confirm-action content-foot clearfix">
         <!-- 加入购物车 -->
         <div class="big-btn-1-1" v-show="skuType===2">
-          <a href="javascript:;" class="js-confirm-it big-btn red-btn main-btn">加入购物车</a>
+          <a href="javascript:;" class="js-confirm-it big-btn red-btn main-btn"@click="addCart">加入购物车</a>
         </div>
         <!-- 立即购买 -->
         <div class="big-btn-1-1"  v-show="skuType===3">
@@ -438,13 +440,14 @@
         </div>
         <!-- 选择规格 -->
         <div class="big-btn-2-1"  v-show="skuType===1">
-          <a href="javascript:;" class="js-mutiBtn-confirm cart big-btn orange-btn vice-btn">加入购物车</a>
+          <a href="javascript:;" class="js-mutiBtn-confirm cart big-btn orange-btn vice-btn"@click="addCart">加入购物车</a>
           <a href="javascript:;" class="js-mutiBtn-confirm confirm big-btn red-btn main-btn">立即购买</a>
         </div>
       </div>
     </div>
   </div>
-  <div class="motify" style="display: none;">
+</transition>
+  <div class="motify" v-show="showAddMessage">
     <div class="motify-inner">已成功添加到购物车</div>
   </div>
 </div>

@@ -6,6 +6,7 @@ import './goods.css'
 import './goods_theme.css'
 import './goods_mars.css'
 import './goods_sku.css'
+import './goods_transition.css'
 
 
 
@@ -22,6 +23,7 @@ let detailTab=['商品详情','本店成交']
 new Vue ({
     el:'#app',
     data:{
+        id,
         details:null,
         detailTab,
         tabIndex:0,
@@ -29,6 +31,9 @@ new Vue ({
         bannerLists:null,
         skuType:1,
         showSku:false,
+        skuNum:1,
+        isAddCart:false,
+        showAddMessage:false
 
     },
     created(){
@@ -65,11 +70,39 @@ new Vue ({
         chooseSku(type){
             this.skuType=type
             this.showSku=true
+        },
+        changeSkuNum(num){
+            if(num<0&&this.skuNmu===1) return
+            this.skuNum+=num
+        },
+        addCart(){
+            axios.get(url.addCart,{
+                id,
+                number:this.skuNum
+            }).then(res=>{
+                if (res.data.status===200){
+                    this.showSku=false
+                    this.addCart=true
+                    this.showAddMessage=true
+                    setTimeout(()=>{
+                        this.showAddMessage=false
+                    },1000)
+                }
+            })
         }
     },
-    components{
+    components:{
         Swipe
-    }
+    },
+    watch:{
+        showSku(val,oldVal){
+            document.body.style.overflow=val?'hidden':'auto'
+            document.querySelector('html').style.overflow=val?'hidden':'auto'
+            document.body.style.height=val?'100%':'auto'
+            document.querySelector('html').style.height=val?'100%':'auto'
+        }
+    },
+
     mixins:[mixin]
 
 })
