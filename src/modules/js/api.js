@@ -7,7 +7,8 @@ let url={
     searchList:'/search/list',
     details:'/goods/details',
     deal:'/goods/deal',
-    addCart:'/cart/add'
+    addCart:'/cart/add',
+    
 
  }
 //  开发环境和实际化境切换
