@@ -10,8 +10,11 @@ import url from 'js.api.js'
 new Vue({
     el:'.container',
     data:{
-
-    },
+        lists:null,
+        total:0,
+        editingShop:null,
+        editingShopIndex:-1
+        },
     computed:{
         allSelected:{
             get(){
@@ -33,6 +36,9 @@ new Vue({
             }
         },
         selectLists(){
+
+
+
             if(this.lists&&this.lists.length){
                 let arr=[]
                 let total=0
@@ -60,6 +66,8 @@ new Vue({
                 
                 lists.forEach(shop=>{
                     shop.checked=ture
+                    shop.editing=false
+                    shop.editingMsg='编辑'
                     shop.goodsList.forEach(good=>{
                         good.cheched=true
                     })
@@ -81,6 +89,19 @@ new Vue({
         },
         selectAll(){
             this.allSelected=!this.allSelected
+        },
+        edit(shop,shopIndex){
+            shop.editing=!shop.editing
+            shop.editingMsg=shop.editing?'完成':'编辑'
+            this.lists.forEach((item,i)=>{
+                if(shopIndex!==i{
+                    item.editing=false
+                    item.editingMsg=shop.editing?'':'编辑'
+                
+                }
+            })
+            this.editingShop=shop.editing?shop:null
+            this.editingShopIndex=shop.editing?shopIndex:-1
         }
     },
     mixins:[mixin]
