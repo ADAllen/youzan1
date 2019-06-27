@@ -13,7 +13,42 @@ new Vue({
 
     },
     computed:{
-        
+        allSelected:{
+            get(){
+                if(this.lists&&this.lists.length){
+                    return this.lists.every(shop=>{
+                        return shop.checked
+                    })
+                }
+                return  false
+            },
+            set(newVal){
+                this,lists.forEach(shop=>{
+                    shop.cheched=newVal
+                    shop.goodsList.forEach(good=>{
+                        good.cheched=newVal
+                    })
+                })
+
+            }
+        },
+        selectLists(){
+            if(this.lists&&this.lists.length){
+                let arr=[]
+                let total=0
+                this.lists.forEach(shop=>{
+                    shop.goodsList.forEach(good=>{
+                        if(good.cheched){
+                            arr.push(good)
+                            total+=good.price*good.num
+                        }
+                    })
+                })
+                this.total=total
+                return arr
+            }
+            return []
+        }
     },
     created(){
         this.getList()
@@ -32,8 +67,20 @@ new Vue({
                 this.lists=lists
             })
         },
-        selectGood(good){
+        selectGood(shop,good){
             good.checked=!good.checked
+            shop.checked=shop.goodsList.every(good=>{
+                return good.checked
+            })
+        },
+        selectShop(shop){
+            shop.cheched=!shop.checked
+            shop.goodsList.forEach(good=>{
+                good.checked=shop.checked
+            })
+        },
+        selectAll(){
+            this.allSelected=!this.allSelected
         }
     },
     mixins:[mixin]
