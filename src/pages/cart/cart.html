@@ -32,19 +32,21 @@
           <!---->
           <!---->
           <div class="js-shop-list shop-list">
-            <div class="block block-order block-cart" v-for="(shop,shopIndex)in lists">
+            <div class="block block-order block-cart" v-for="(shop,shopIndex) in lists">
               <div class="header">
                 <div class="select-group js-select-group" @click="selectShop(shop)"><span class="check " :class="{checked:shop.checked}"></span></div> <a class="shop-title"><i class="custom-store-img">店铺：</i>{{shop.shopTitle}}</a>
                 <a href="javascript:;" data-type="cart" class="j-edit-list pull-right c-blue font-size-12 edit-list"
                 @click="edit(shop,shopIndex)">
                   <!---->
-                  {{shop-editingMsg}}
+                  {{shop.editingMsg}}
                 </a>
               </div>
               <!---->
               <div>
                 <ul class="js-list block block-list block-list-cart border-0">
-                  <li class="block-item block-item-cart":class="{editing:shop.editing}" v-for="(good,goodIneds)in shop.goodList">
+                  <li class="block-item block-item-cart":class="{editing:shop.editing}" 
+                  v-for="(good,goodIndex) in shop.goodsList"
+                  >
                     <div>
                       <div class="check-container" @click="selectGood(shop,good)">
                         <span class="check":class="{checked:editingShop?good.removeChecked:good.checked}" ></span>

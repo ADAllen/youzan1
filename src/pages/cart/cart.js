@@ -3,9 +3,9 @@ import './cart_trade.css'
 import './cart.css'
 
 import Vue from 'vue'
-import mixin from 'js.mixin.js'
+import mixin from 'js/mixin.js'
 import axios from 'axios'
-import url from 'js.api.js'
+import url from 'js/api.js'
 
 new Vue({
     el:'.container',
@@ -72,34 +72,39 @@ new Vue({
     },
     methods:{
         getList(){
-            axios.get(url.cartLists).tjem(res=>{
-                let lists=res.data.cartLists
+            axios.get(url.cartLists).then(res=>{
+                let lists=res.data.cartList
                 
                 lists.forEach(shop=>{
-                    shop.checked=ture
+                    shop.checked=true
+                    shop.removeCheched=false
                     shop.editing=false
                     shop.editingMsg='编辑'
                     shop.goodsList.forEach(good=>{
-                        good.cheched=true
+                        good.checked=true
+                        good.removeCheched=false
                     })
                 })
                 this.lists=lists
             })
         },
         selectGood(shop,good){
-            good.checked=!good.checked
-            shop.checked=shop.goodsList.every(good=>{
-                return good.checked
+            let attr =this.editingShop?'removeChecked':'checked'
+            good[attr]=!good[attr]
+            shop[attr]=shop.goodsList.every(good=>{
+                return good[attr]
             })
         },
         selectShop(shop){
-            shop.cheched=!shop.checked
+            let attr=this.editingShop?'removeChecked':'checked'
+            shop[attr]=!shop[attr]
             shop.goodsList.forEach(good=>{
-                good.checked=shop.checked
+                good[attr]=shop[attr]
             })
         },
         selectAll(){
-            this.allSelected=!this.allSelected
+            let attr =this.editingShop?'allRemoveSelected':'allSelected'
+            this[attr]=!this[attr]
         },
         edit(shop,shopIndex){
             shop.editing=!shop.editing
