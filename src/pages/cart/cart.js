@@ -35,6 +35,14 @@ new Vue({
 
             }
         },
+        allRemoveSelected:{
+            get(){
+
+            },
+            set(newVal){
+
+            }
+        },
         selectLists(){
 
 
@@ -54,6 +62,9 @@ new Vue({
                 return arr
             }
             return []
+        },
+        removeLists(){
+
         }
     },
     created(){
@@ -94,7 +105,7 @@ new Vue({
             shop.editing=!shop.editing
             shop.editingMsg=shop.editing?'完成':'编辑'
             this.lists.forEach((item,i)=>{
-                if(shopIndex!==i{
+                if(shopIndex!==i){
                     item.editing=false
                     item.editingMsg=shop.editing?'':'编辑'
                 
