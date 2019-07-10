@@ -71,11 +71,11 @@
                           <div class="num" v-show="shop.editing">
                             <!---->
                             <div class="quantity">
-                              <button type="button" class="minus disabled"></button>
+                              <button type="button" class="minus ":class='{disabled:good.num===1}'></button>
                               <input type="text" pattern="[0-9]*" class="txt" v-model="good.num">
                               <button type="button" class="plus "></button>
-                              <div class="response-area response-area-minus"></div>
-                              <div class="response-area response-area-plus"></div>
+                              <div class="response-area response-area-minus" @click="reduce(good)"></div>
+                              <div class="response-area response-area-plus"@click="add(good)"></div>
                             </div>
                           </div>
                           <div class="price c-orange">
@@ -138,7 +138,7 @@
                 合计：¥<span class="js-total-price" style="color: rgb(255, 102, 0);">{{total|currency}}</span>
                 <p class="c-gray-dark">不含运费</p>
               </div>
-              <button href="javascript:;"disabled="!selectLists.length"  v-show="editingShop" class="js-go-pay btn btn-orange-dark font-size-14" >
+              <button href="javascript:;" :disabled="removeList"s.length  v-show="editingShop" class="js-go-pay btn btn-orange-dark font-size-14" >
                 结算 (3)
               </button>
               <!-- 编辑状态 -->

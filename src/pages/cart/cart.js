@@ -37,9 +37,19 @@ new Vue({
         },
         allRemoveSelected:{
             get(){
+                if(this.editingShop){
+                    return this.editingShop.removeChecked
+                }
+                return false
 
             },
             set(newVal){
+                if(this.editingShop){
+                    this.editingShop.removeCheched=newVal
+                    this.editingShop.goodsList.forEach(good=>{
+                        good.removeCheched=newVal
+                    })
+                }
 
             }
         },
@@ -64,6 +74,16 @@ new Vue({
             return []
         },
         removeLists(){
+            if(this.editingShop){
+                let arr=[]
+                this.editingShop.goodsList.forEach(good=>{
+                    if(good.removeCheched){
+                        arr.push(good)
+                    }
+                })
+                return arr
+            }
+            return []
 
         }
     },
@@ -118,7 +138,27 @@ new Vue({
             })
             this.editingShop=shop.editing?shop:null
             this.editingShopIndex=shop.editing?shopIndex:-1
+        },
+        reduce(good){
+            if(good.num===1) return
+            axios.get(url.cartAdd,{
+                id:good.id,
+                num:1
+
+            }).then(res=>{
+                good.num--
+            })
+        },
+        add(good){
+            axios.get(url.cartAdd,{
+                id:good.id,
+                num:1
+
+            }).then(res=>{
+                good.num++
+            })
         }
+
     },
     mixins:[mixin]
 })
